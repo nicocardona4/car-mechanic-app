@@ -1,5 +1,8 @@
 const express = require('express');
+<<<<<<< HEAD
 const authMiddleware = require('../middleware/authMiddleware');
+=======
+>>>>>>> d431f7c65a93b3a9c41e85b65d2598f6be1b54d4
 const { createUser } = require('../controllers/users_controller');
 
 const router = express.Router();
@@ -7,8 +10,11 @@ const router = express.Router();
 
 router.post("/v1/users", createUser);
 
+<<<<<<< HEAD
 router.get('/profile', authMiddleware, (req, res) => {
   res.json({ message: 'Testing', user: req.user });
 });
 
+=======
+>>>>>>> d431f7c65a93b3a9c41e85b65d2598f6be1b54d4
 module.exports = router;
