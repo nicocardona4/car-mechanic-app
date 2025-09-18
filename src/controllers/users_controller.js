@@ -56,12 +56,7 @@ const createUser = async (req, res) => {  // CP | meti el async para usar el awa
     try {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds)
-
-    // if (bd.findUserByEmail(email)) {
-    //     res.status(StatusCodes.CONFLICT).json(createError("conflict", `User with email ${email} already exists`));
-    //     return;
-    // }
-        const newUser = { id: 1, username, password: hashedPassword, email, userType }; // CP | lo escribio el VSC solo- no se q es 'Mock'
+        const newUser = await usersService.signup({ username, password: hashedPassword, email, userType });
         res.status(StatusCodes.CREATED).json(newUser);
     } catch(error){
          req.status(StatusCodes.INTERNAL_SERVER_ERROR).json(createError("server_error", error.message));
