@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 
 
-const publicRouter = require('./routes/public_router');
+const publicRouter = require('./routes/signup_router');
 const app = express();
 app.use(express.json());
 app.use('/public', publicRouter);
