@@ -5,9 +5,9 @@ const { createUser } = require('../controllers/users_controller');
 const router = express.Router();
 
 
-router.post("/v1/users", createUser);
+router.post("/v1/signup", createUser);
 
-router.get('/profile', authMiddleware, (req, res) => {
+router.get('/profile', (req, res) => {
   res.json({ message: 'Testing', user: req.user });
 });
 

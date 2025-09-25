@@ -1,7 +1,7 @@
-const User = require('../models/user.model');
+const User = require('../models/user_model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const buildUserDTOResponse = require('../dtos/user.response.dto');
+const buildUserDTOResponse = require('../dtos/user_response_dto');
 const { StatusCodes } = require('http-status-codes');
 
 
@@ -9,13 +9,19 @@ const doLogin = async ({ username, password }) => {
     const user = await getUserByUserName(username);
 
     if (!user) {
-        return null;
+        let error = new Error("invalid credentials");
+        error.status = "unauthorized";
+        error.code = StatusCodes.UNAUTHORIZED;
+        throw error;
     }
 
     const compareResult = await bcrypt.compare(password, user.password);
 
     if (!compareResult) {
-        return null;
+        let error = new Error("invalid credentials");
+        error.status = "unauthorized";
+        error.code = StatusCodes.UNAUTHORIZED;
+        throw error;
     }
 
     const token = jwt.sign({ username: user.username, name: user.name, userId: user._id.toString() }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
@@ -23,7 +29,7 @@ const doLogin = async ({ username, password }) => {
     return { token: token };
 }
 
-const registerUser = async ({ username, password, name, lastname, email }) => {
+const registerUser = async ({ username, password, name, lastname, email , userType }) => {
     if (await getUserByUserName(username)) {
         let error = new Error("user already exists");
         error.status = "conflict";

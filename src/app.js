@@ -1,13 +1,30 @@
-const express = require('express');
 require('dotenv').config();
 
+const express = require('express');
 
-const publicRouter = require('./routes/signup_router');
+
+const connectMongoDB = require('./repositories/mongo_client.js');
+
+
+
+const signupRouter = require('./routes/signup_router');
+const loginRouter = require('./routes/login_router');
 const app = express();
 app.use(express.json());
-app.use('/public', publicRouter);
+app.use('', signupRouter);
+app.use('', loginRouter);
 
-const port = process.env.PORT;
-app.listen(port, () => {
-    console.log("App started and listening in port " + port);
-})
+(async () => {
+    try {
+        await connectMongoDB();
+        console.log("conexión mongoDB ok")
+
+        const port = process.env.PORT;
+        app.listen(port, () => {
+            console.log("App started and listening in port " + port);
+        })
+    } catch (error) {
+        console.log("Error conectando con mongoDB", error);
+        process.exit(1);
+    }
+})();
