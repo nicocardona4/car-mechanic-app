@@ -54,7 +54,26 @@ const createUser = async (req, res) => {  // CP | meti el async para usar el awa
         return;
     }
 
-    const newUser = await usersService.registerUser(body);
+    const { username, password, email, userType } = body;
+    try {
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds)
+        const newUser = await usersService.signup({ username, password: hashedPassword, email, userType });
+        res.status(StatusCodes.CREATED).json(newUser);
+    } catch(error){
+         req.status(StatusCodes.INTERNAL_SERVER_ERROR).json(createError("server_error", error.message));
+    }
+
+
+
+    // const newUser = bd.createUser(username, password, email, userType);
+    //const newUser = { id: 1, username, password, email, userType }; // Mock
+
+   // res.status(StatusCodes.CREATED).json(newUser);
+
+    // const newUser = bd.createUser(username, password, email, userType);
+    const newUser = { id: 1, username, password, email, userType }; // Mock
+
     res.status(StatusCodes.CREATED).json(newUser);
 } catch (error) {
     console.error("CreateUser error:", error);
