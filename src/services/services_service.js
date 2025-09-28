@@ -22,7 +22,7 @@ const createService = async (customerName, brand, model, year, licensePlate, des
         const savedService = await newService.save();
         return buildServiceDTOResponse(savedService);
     } catch (e) {
-        console.log("error guardando service en la base", e);
+        console.log("error saving service in database", e);
         let error = new Error("error saving service in database");
         error.status = "internal_server_error";
         error.code = StatusCodes.INTERNAL_SERVER_ERROR;
@@ -71,7 +71,7 @@ const findServiceByIdInDB = async (serviceId, userId) => {
     try {
         service = await Service.findById(serviceId);
     } catch (e) {
-        console.log("Error obteniendo el servicio en la base", e)
+        console.log("error getting service in database", e)
         let error = new Error("error getting service in database");
         error.status = "internal_server_error",
             error.code = StatusCodes.INTERNAL_SERVER_ERROR;
@@ -106,4 +106,13 @@ const updateService = async (serviceId, status, userId) => {
     }
 }
 
-module.exports = { createService ,getServicesByUserId,findServiceById,updateService};
+const deleteService = async (serviceId, userId) => {
+    try {
+        const service = await findServiceByIdInDB(serviceId, userId);
+        await service.deleteOne();
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = { createService ,getServicesByUserId,findServiceById,updateService,deleteService};

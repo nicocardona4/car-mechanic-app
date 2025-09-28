@@ -82,10 +82,21 @@ const updateService = async (req, res) => {
     }
 }
 
+const deleteService = async (req, res) => {
+    const serviceId = req.params.id;
+    try {
+        await servicesService.deleteService(serviceId, req.userId);
+        res.status(StatusCodes.NO_CONTENT).send();
+    } catch (error) {
+        res.status(error.code || 500).json(createError(error.status, error.message));
+    }
+}
+
 
 module.exports = {
     createService,
     getServices,
     getServiceById,
-    updateService
+    updateService,
+    deleteService
 };

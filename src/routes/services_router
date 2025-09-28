@@ -4,7 +4,8 @@ const {
     createService,
     getServices,
     getServiceById,
-    updateService
+    updateService,  
+    deleteService
 } = require('../controllers/services_controller');
 
 const router = express.Router();
@@ -13,6 +14,6 @@ router.post("/v1/services", createService);
 router.get("/v1/services", getServices);
 router.get("/v1/services/:id", getServiceById);
 router.put("/v1/services/:id", updateService);
-// router.delete("/v1/services/:id", deleteService);
+router.delete("/v1/services/:id", deleteService);
 
 module.exports = router;

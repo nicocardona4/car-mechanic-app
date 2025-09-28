@@ -52,7 +52,6 @@ const registerUser = async ({ username, password, email, userType }) => {
         userType: userType
     });
 
-    //FALTA VALIDAR 
 
     try {
         console.log("Nuevo usuario a guardar:", newUser);
