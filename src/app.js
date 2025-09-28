@@ -4,8 +4,10 @@ const express = require('express');
 
 
 const connectMongoDB = require('./repositories/mongo_client.js');
+console.log("¿Qué importé?", connectMongoDB);
 
 
+const authMiddleware = require('./middleware/auth_middleware.js');
 
 const signupRouter = require('./routes/signup_router');
 const loginRouter = require('./routes/login_router');

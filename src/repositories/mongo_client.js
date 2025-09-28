@@ -45,6 +45,6 @@ async function connectMongoDB() {
         console.log("Error conectando", err);
     }
 }
-module.exports = { connectMongoDB };
+module.exports =  connectMongoDB ;
 
 
