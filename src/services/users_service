@@ -60,8 +60,31 @@ const registerUser = async ({ username, password, name, lastname, email , userTy
 
 const getUserByUserName = async username => await User.findOne({ username: username })
 
+const changePlanService = async (username) => {
+  const user = await getUserByUserName(username);
+
+  if (!user) {
+    let error = new Error('User not found');
+    error.status = 'not_found';
+    error.code = StatusCodes.NOT_FOUND;
+    throw error;
+  }
+
+  if (user.userType !== 'plus') {
+    let error = new Error('User must be plus to upgrade');
+    error.status = 'forbidden';
+    error.code = StatusCodes.FORBIDDEN;
+    throw error;
+  }
+
+  user.userType = 'premium';
+  await user.save();
+};
+
+
 
 module.exports = {
     doLogin,
-    registerUser
+    registerUser,
+    changePlanService
 };

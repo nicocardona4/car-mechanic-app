@@ -3,10 +3,10 @@ require('dotenv').config();
 const express = require('express');
 
 
-const connectMongoDB = require('./repositories/mongo_client.js');
+const {connectMongoDB} = require('./repositories/mongo_client.js');
 
 
-
+connectMongoDB();
 const signupRouter = require('./routes/signup_router');
 const loginRouter = require('./routes/login_router');
 const app = express();

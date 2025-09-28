@@ -1,4 +1,5 @@
 // const bd = require('../models/bd');
+const { changePlanService } = require('../services/users_service');
 const { createError } = require('../utils/errors.js');
 const bcrypt = require('bcrypt');
 const StatusCodes = require('http-status-codes');
@@ -63,4 +64,19 @@ const createUser = async (req, res) => {  // CP | meti el async para usar el awa
     }
 }
 
-module.exports = { createUser, login };
+const changePlan = async (req, res) => {
+  try {
+    // CP | get del user
+    const username = req.user.username;
+
+    const updatedUser = await changePlanService(username);
+    res.status(StatusCodes.OK).json(updatedUser);
+
+  } catch (e) {
+    console.error(e);
+    res.status(e.code || StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(createError(e.status || 'server_error', e.message || 'Unexpected error'));
+  }
+};
+
+module.exports = { createUser, login, changePlan };
