@@ -1,19 +1,21 @@
 require('dotenv').config();
 
 const express = require('express');
-
-
 const connectMongoDB = require('./repositories/mongo_client.js');
-
-
+const { authMiddleware } = require('./middleware/auth_middleware');
 
 const signupRouter = require('./routes/signup_router');
 const loginRouter = require('./routes/login_router');
+const servicesRouter = require('./routes/services_router');
+
 const app = express();
 app.use(express.json());
+
 app.use('', signupRouter);
 app.use('', loginRouter);
+app.use(authMiddleware);
 
+app.use('', servicesRouter);
 (async () => {
     try {
         await connectMongoDB();
