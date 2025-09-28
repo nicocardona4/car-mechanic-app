@@ -29,13 +29,20 @@ const doLogin = async ({ username, password }) => {
     return { token: token };
 }
 
-const registerUser = async ({ username, password, name, lastname, email , userType }) => {
+const registerUser = async ({ username, password, email, userType }) => {
     if (await getUserByUserName(username)) {
         let error = new Error("user already exists");
         error.status = "conflict";
         error.code = StatusCodes.CONFLICT;
         throw error;
     }
+    if (await getUserByEmail(email)) {
+        let error = new Error("email already exists");
+        error.status = "conflict";
+        error.code = StatusCodes.CONFLICT;
+        throw error;
+    }
+
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -45,8 +52,12 @@ const registerUser = async ({ username, password, name, lastname, email , userTy
         userType: userType
     });
 
+    //FALTA VALIDAR 
+
     try {
+        console.log("Nuevo usuario a guardar:", newUser);
         const savedUser = await newUser.save();
+        console.log("Usuario guardado:", savedUser);
         const userDTO = buildUserDTOResponse(savedUser);
         return userDTO;
     } catch (error) {
@@ -58,27 +69,28 @@ const registerUser = async ({ username, password, name, lastname, email , userTy
     }
 }
 
-const getUserByUserName = async username => await User.findOne({ username: username })
+const getUserByUserName = async username => await User.findOne({ username: username });
+const getUserByEmail = async email => await User.findOne({ email: email });
 
 const changePlanService = async (username) => {
-  const user = await getUserByUserName(username);
+    const user = await getUserByUserName(username);
 
-  if (!user) {
-    let error = new Error('User not found');
-    error.status = 'not_found';
-    error.code = StatusCodes.NOT_FOUND;
-    throw error;
-  }
+    if (!user) {
+        let error = new Error('User not found');
+        error.status = 'not_found';
+        error.code = StatusCodes.NOT_FOUND;
+        throw error;
+    }
 
-  if (user.userType !== 'plus') {
-    let error = new Error('User must be plus to upgrade');
-    error.status = 'forbidden';
-    error.code = StatusCodes.FORBIDDEN;
-    throw error;
-  }
+    if (user.userType !== 'plus') {
+        let error = new Error('User must be plus to upgrade');
+        error.status = 'forbidden';
+        error.code = StatusCodes.FORBIDDEN;
+        throw error;
+    }
 
-  user.userType = 'premium';
-  await user.save();
+    user.userType = 'premium';
+    await user.save();
 };
 
 

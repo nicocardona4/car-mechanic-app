@@ -8,6 +8,7 @@ const buildServiceDTOResponse = service => {
         description: service.description,
         serviceType: service.serviceType,
         cost: service.cost,
+        status: service.status,
     }
 }
 
