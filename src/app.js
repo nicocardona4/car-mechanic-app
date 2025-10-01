@@ -12,6 +12,7 @@ const authMiddleware = require('./middleware/auth_middleware.js');
 const signupRouter = require('./routes/signup_router');
 const loginRouter = require('./routes/login_router');
 const servicesRouter = require('./routes/services_router');
+const serviceTypeRouter = require('./routes/serviceType_router');
 
 const app = express();
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use('', loginRouter);
 app.use(authMiddleware);
 
 app.use('', servicesRouter);
+app.use('', serviceTypeRouter);
 (async () => {
     try {
         await connectMongoDB();
