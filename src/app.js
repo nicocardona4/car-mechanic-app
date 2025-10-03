@@ -11,6 +11,8 @@ const loginRouter = require('./routes/login_router');
 const servicesRouter = require('./routes/services_router');
 const serviceTypeRouter = require('./routes/serviceType_router');
 const authMiddleware = require('./middleware/auth_middleware.js');
+const usersRouter = require('./routes/users_router.js'); 
+
 
 
 const app = express();
@@ -20,6 +22,7 @@ app.use('', signupRouter);
 app.use('', loginRouter);
 app.use(authMiddleware);
 
+app.use('', usersRouter);
 app.use('', servicesRouter);
 app.use('', serviceTypeRouter);
 (async () => {

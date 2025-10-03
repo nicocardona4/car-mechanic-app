@@ -1,7 +1,7 @@
 // const bd = require('../models/bd');
 const { changePlanService } = require('../services/users_service');
 const { createError } = require('../utils/errors.js');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const StatusCodes = require('http-status-codes');
 const createTodoSchema = require('../validators/create_user_schema');
 const loginSchema = require('../validators/login_schema');
@@ -67,9 +67,9 @@ const createUser = async (req, res) => {  // CP | meti el async para usar el awa
 const changePlan = async (req, res) => {
   try {
     // CP | get del user
-    const username = req.user.username;
+    const userId = req.userId;
 
-    const updatedUser = await changePlanService(username);
+    const updatedUser = await changePlanService(userId);
     res.status(StatusCodes.OK).json(updatedUser);
 
   } catch (e) {

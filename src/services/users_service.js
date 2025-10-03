@@ -1,6 +1,6 @@
 const User = require('../models/user_model');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const buildUserDTOResponse = require('../dtos/user_response_dto');
 const { StatusCodes } = require('http-status-codes');
 
@@ -71,8 +71,8 @@ const registerUser = async ({ username, password, email, userType }) => {
 const getUserByUserName = async username => await User.findOne({ username: username });
 const getUserByEmail = async email => await User.findOne({ email: email });
 
-const changePlanService = async (username) => {
-    const user = await getUserByUserName(username);
+const changePlanService = async (userId) => {
+    const user = await User.findById(userId);
 
     if (!user) {
         let error = new Error('User not found');
