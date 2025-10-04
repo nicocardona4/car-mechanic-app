@@ -70,9 +70,10 @@ const registerUser = async ({ username, password, email, userType }) => {
 
 const getUserByUserName = async username => await User.findOne({ username: username });
 const getUserByEmail = async email => await User.findOne({ email: email });
+const getUserById = async id => await User.findById(id);
 
 const changePlanService = async (userId) => {
-    const user = await User.findById(userId);
+    const user = await getUserById(userId);
 
     if (!user) {
         let error = new Error('User not found');
@@ -97,5 +98,6 @@ const changePlanService = async (userId) => {
 module.exports = {
     doLogin,
     registerUser,
-    changePlanService
+    changePlanService,
+    getUserById
 };

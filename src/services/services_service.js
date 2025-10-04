@@ -92,7 +92,21 @@ const findServiceByIdInDB = async (serviceId, userId) => {
         throw error
     }
     return service;
-}   
+} 
+
+const countServicesByUserId = async (userId) => {
+    try {
+        const count = await Service.countDocuments({ userId: userId });
+        console.log("Count of services for user:", count);
+        return count;
+    } catch (e) {
+        console.log("error counting services for user", e);
+        let error = new Error("error counting services for user");
+        error.status = "internal_server_error";
+        error.code = StatusCodes.INTERNAL_SERVER_ERROR;
+        throw error;
+    }
+}
 
 const updateService = async (serviceId, status, userId) => {
     try {
@@ -115,4 +129,4 @@ const deleteService = async (serviceId, userId) => {
     }
 }
 
-module.exports = { createService ,getServicesByUserId,findServiceById,updateService,deleteService};
+module.exports = { countServicesByUserId,createService ,getServicesByUserId,findServiceById,updateService,deleteService};

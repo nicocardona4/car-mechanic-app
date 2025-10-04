@@ -6,8 +6,11 @@ const ServiceType = require('../models/serviceType_model');
 
 const getServiceTypes = async () => {
     try {
-        const serviceTypes = buildServiceTypesDTOResponse(await ServiceType.find());
-        return serviceTypes;
+        const serviceTypes = await ServiceType.find()
+        let servicesResponse = serviceTypes.map(serviceType => {
+            return buildServiceTypesDTOResponse(serviceType);
+        });
+        return servicesResponse;
     } catch (e) {
         console.log("error getting service types", e);
         let error = new Error("error getting service types");

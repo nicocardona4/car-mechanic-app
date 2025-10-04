@@ -1,8 +1,11 @@
 const { createError } = require('../utils/errors.js');
 const StatusCodes = require('http-status-codes');
 const createServiceSchema = require('../validators/create_service_schema');
-const servicesService = require('../services/services_service');
+const servicesService = require('../services/services_service')
+const serviceTypesService = require('../services/serviceTypes_service');
+const userService = require('../services/users_service.js');
 const updateServiceSchema = require('../validators/update_service_schema');
+const User = require('../repositories/user_schema.js');
 
 
 const createService = async (req, res) => {
@@ -13,13 +16,26 @@ const createService = async (req, res) => {
         res.status(StatusCodes.BAD_REQUEST).json(createError("bad_request", "Invalid body"));
         return;
     }
-
+    if(body.serviceType) {
+        const serviceTypes = await serviceTypesService.getServiceTypes();
+        const isValidServiceType = serviceTypes.some(st => st.name === body.serviceType);
+        if (!isValidServiceType) {
+            res.status(StatusCodes.BAD_REQUEST).json(createError("bad_request", "Invalid service type"));
+            return;
+        }
+    }
     const { error } = createServiceSchema.validate(body);
 
     if (error) {
         console.log(error)
         const errorMessage = error.details[0].message;
         res.status(StatusCodes.BAD_REQUEST).json(createError("bad_request", errorMessage));
+        return;
+    }
+
+    const user = await userService.getUserById(req.userId);
+    if (user.userType == 'plus' && (await servicesService.countServicesByUserId(req.userId)) >= 10) {
+        res.status(StatusCodes.FORBIDDEN).json(createError("forbidden", "User has reached the maximum number of services for free plan"));
         return;
     }
 
@@ -64,6 +80,15 @@ const updateService = async (req, res) => {
         return;
     }
 
+    if(body.serviceType) {//Esto queda por si en el futuro se quiere permitir cambiar el tipo de servicio
+        const serviceTypes = await serviceTypesService.getServiceTypes();
+        const isValidServiceType = serviceTypes.some(st => st.name === body.serviceType);
+        if (!isValidServiceType) {
+            res.status(StatusCodes.BAD_REQUEST).json(createError("bad_request", "Invalid service type"));
+            return;
+        }
+    }
+
     const { error } = updateServiceSchema.validate(body);
 
     if (error) {
@@ -91,6 +116,7 @@ const deleteService = async (req, res) => {
         res.status(error.code || 500).json(createError(error.status, error.message));
     }
 }
+
 
 
 module.exports = {
