@@ -34,6 +34,10 @@ const createService = async (req, res) => {
     }
 
     const user = await userService.getUserById(req.userId);
+    console.log("Usuario que intenta crear el servicio:", user);
+    console.log("Tipo de usuario:", user.userType);
+    console.log("Cantidad de servicios del usuario:", await servicesService.countServicesByUserId(req.userId));
+
     if (user.userType == 'plus' && (await servicesService.countServicesByUserId(req.userId)) >= 10) {
         res.status(StatusCodes.FORBIDDEN).json(createError("forbidden", "User has reached the maximum number of services for free plan"));
         return;
