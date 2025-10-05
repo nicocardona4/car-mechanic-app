@@ -12,7 +12,7 @@ const servicesRouter = require('./routes/services_router');
 const serviceTypeRouter = require('./routes/serviceType_router');
 const authMiddleware = require('./middleware/auth_middleware.js');
 const usersRouter = require('./routes/users_router.js'); 
-
+const healthRouter = require('./routes/health_router');
 
 
 const app = express();
@@ -20,6 +20,7 @@ app.use(express.json());
 
 app.use('', signupRouter);
 app.use('', loginRouter);
+app.use("/", healthRouter);
 app.use(authMiddleware);
 
 app.use('', usersRouter);
