@@ -4,6 +4,6 @@ const { authMiddleware } = require('../middleware/auth_middleware');
 const router = express.Router();
 
 
-router.patch('/v1/users/change-plan', changePlan);
+router.put('/v1/users/change-plan', changePlan);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 // const bd = require('../models/bd');
 const { changePlanService } = require('../services/users_service');
 const { createError } = require('../utils/errors.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const StatusCodes = require('http-status-codes');
 const createTodoSchema = require('../validators/create_user_schema');
 const loginSchema = require('../validators/login_schema');

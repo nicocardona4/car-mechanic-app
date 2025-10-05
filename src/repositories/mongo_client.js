@@ -38,7 +38,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 async function connectMongoDB() {
-    const connectionURL = process.env.MONGO_URI_LOCAL;
+    const connectionURL = process.env.MONGO_URI;
     const dbName = process.env.MONGO_TODOS_DB_NAME;
 
     console.log("Connected to:", connectionURL, "DB:", dbName);
