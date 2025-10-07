@@ -74,21 +74,21 @@ const findServiceByIdInDB = async (serviceId, userId) => {
         console.log("error getting service in database", e)
         let error = new Error("error getting service in database");
         error.status = "internal_server_error",
-            error.code = StatusCodes.INTERNAL_SERVER_ERROR;
+        error.code = StatusCodes.INTERNAL_SERVER_ERROR;
         throw error
     }
 
     if (!service) {
         let error = new Error("service was not found in database");
         error.status = "not_found",
-            error.code = StatusCodes.NOT_FOUND;
+        error.code = StatusCodes.NOT_FOUND;
         throw error
     }
 
     if (service.userId.toString() !== userId) {
         let error = new Error("not allowed to access this resource");
         error.status = "forbidden",
-            error.code = StatusCodes.FORBIDDEN;
+        error.code = StatusCodes.FORBIDDEN;
         throw error
     }
     return service;

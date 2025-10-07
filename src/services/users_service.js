@@ -54,9 +54,7 @@ const registerUser = async ({ username, password, email, userType }) => {
 
 
     try {
-        console.log("Nuevo usuario a guardar:", newUser);
         const savedUser = await newUser.save();
-        console.log("Usuario guardado:", savedUser);
         const userDTO = buildUserDTOResponse(savedUser);
         return userDTO;
     } catch (error) {

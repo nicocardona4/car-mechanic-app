@@ -29,14 +29,11 @@ app.use('', serviceTypeRouter);
 (async () => {
     try {
         await connectMongoDB();
-        console.log("conexión mongoDB ok")
-
         const port = process.env.PORT;
         app.listen(port, () => {
             console.log("App started and listening in port " + port);
         })
     } catch (error) {
-        console.log("Error conectando con mongoDB", error);
         process.exit(1);
     }
 })();
