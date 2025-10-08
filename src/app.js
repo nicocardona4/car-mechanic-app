@@ -6,12 +6,12 @@ const express = require('express');
 const connectMongoDB = require('./repositories/mongo_client.js');
 console.log("¿Qué importé?", connectMongoDB);
 
-const signupRouter = require('./routes/signup_router.js/index.js');
-const loginRouter = require('./routes/login_router.js/index.js');
-const servicesRouter = require('./routes/services_router.js/index.js');
+const signupRouter = require('./routes/signup_router.js');
+const loginRouter = require('./routes/login_router.js');
+const servicesRouter = require('./routes/services_router.js');
 const serviceTypeRouter = require('./routes/serviceType_router');
 const authMiddleware = require('./middleware/auth_middleware.js');
-const usersRouter = require('./routes/users_router.js'); 
+const usersRouter = require('./routes/users_router'); 
 const healthRouter = require('./routes/health_router');
 
 

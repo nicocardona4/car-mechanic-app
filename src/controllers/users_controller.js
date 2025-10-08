@@ -1,9 +1,10 @@
+// const bd = require('../models/bd');
 const { changePlanService } = require('../services/users_service');
 const { createError } = require('../utils/errors.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const StatusCodes = require('http-status-codes');
-const createUserSchema = require('../validators/create_user_schema.js/index.js');
-const loginSchema = require('../validators/login_schema.js/index.js');
+const createTodoSchema = require('../validators/create_user_schema');
+const loginSchema = require('../validators/login_schema');
 const jwt = require('jsonwebtoken');
 const usersService = require('../services/users_service');
 
@@ -37,7 +38,7 @@ const login = async (req, res) => {
 }
 
 
-const createUser = async (req, res) => { 
+const createUser = async (req, res) => {  // CP | meti el async para usar el await
     try {
     const { body } = req;
 
@@ -46,7 +47,7 @@ const createUser = async (req, res) => {
         return;
     }
 
-    const { error } = createUserSchema.validate(body);
+    const { error } = createTodoSchema.validate(body);
 
     if (error) {
         const errorMessage = error.details[0].message;
@@ -59,18 +60,20 @@ const createUser = async (req, res) => {
 } catch (error) {
     console.error("CreateUser error:", error);
     res.status(error.code || StatusCodes.INTERNAL_SERVER_ERROR)
-    .json(createError(error.status || "server_error", error.message || "An unexpected error occurred"));
+            .json(createError(error.status || "server_error", error.message || "An unexpected error occurred"));
     }
 }
 
 const changePlan = async (req, res) => {
   try {
+    // CP | get del user
     const userId = req.userId;
 
     const updatedUser = await changePlanService(userId);
     res.status(StatusCodes.OK).json(updatedUser);
 
   } catch (e) {
+    console.error(e);
     res.status(e.code || StatusCodes.INTERNAL_SERVER_ERROR)
       .json(createError(e.status || 'server_error', e.message || 'Unexpected error'));
   }

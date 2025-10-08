@@ -1,6 +1,6 @@
 const { createError } = require('../utils/errors.js');
 const StatusCodes = require('http-status-codes');
-const createServiceSchema = require('../validators/create_service_schema.js/index.js');
+const createServiceSchema = require('../validators/create_service_schema.js');
 const servicesService = require('../services/services_service')
 const serviceTypesService = require('../services/serviceTypes_service');
 const userService = require('../services/users_service.js');
@@ -102,7 +102,6 @@ const updateService = async (req, res) => {
     }
 
     const { error } = updateServiceSchema.validate(body);
-
     if (error) {
         console.log(error)
         const errorMessage = error.details[0].message;
