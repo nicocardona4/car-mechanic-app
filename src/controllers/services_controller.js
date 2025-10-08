@@ -1,11 +1,12 @@
 const { createError } = require('../utils/errors.js');
 const StatusCodes = require('http-status-codes');
-const createServiceSchema = require('../validators/create_service_schema');
+const createServiceSchema = require('../validators/create_service_schema.js/index.js');
 const servicesService = require('../services/services_service')
 const serviceTypesService = require('../services/serviceTypes_service');
 const userService = require('../services/users_service.js');
 const updateServiceSchema = require('../validators/update_service_schema');
 const User = require('../repositories/user_schema.js');
+const filterSchema = require('../validators/filter_services_schema.js');
 
 
 const createService = async (req, res) => {
@@ -51,6 +52,16 @@ const createService = async (req, res) => {
 }
 
 const getServices = async (req, res) => {
+    const { error } = filterSchema.validate(req.query);
+    console.log("error:", error);
+
+
+    if (error) {
+        console.log(error)
+        const errorMessage = error.details[0].message;
+        res.status(StatusCodes.BAD_REQUEST).json(createError("bad_request", errorMessage));
+        return;
+    }
     try {
         let services = await servicesService.getServicesByUserId(req.userId, req.query);
         res.status(StatusCodes.OK).json(services);

@@ -43,6 +43,20 @@ const getServicesByUserId = async (userId, queryParams) => {
             query.serviceType = queryParams.serviceType;
         }
 
+        if (queryParams.startDate || queryParams.endDate) {
+            query.createdAt = {};
+            console.log("queryParams.startDate:", queryParams.startDate);
+            if (queryParams.startDate) {
+                console.log("Setting startDate in query");
+                query.createdAt.$gte = new Date(queryParams.startDate);
+            }
+
+            if (queryParams.endDate) {
+                query.createdAt.$lte = new Date(queryParams.endDate);
+            }
+        }
+
+        console.log("Query for getting services:", query);
         const services = await Service.find(query);
         let servicesResponse = services.map(service => {
             return buildServiceDTOResponse(service);

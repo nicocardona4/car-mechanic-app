@@ -2,8 +2,8 @@ const { changePlanService } = require('../services/users_service');
 const { createError } = require('../utils/errors.js');
 const bcrypt = require('bcrypt');
 const StatusCodes = require('http-status-codes');
-const createTodoSchema = require('../validators/create_user_schema');
-const loginSchema = require('../validators/login_schema');
+const createUserSchema = require('../validators/create_user_schema.js/index.js');
+const loginSchema = require('../validators/login_schema.js/index.js');
 const jwt = require('jsonwebtoken');
 const usersService = require('../services/users_service');
 
@@ -46,7 +46,7 @@ const createUser = async (req, res) => {
         return;
     }
 
-    const { error } = createTodoSchema.validate(body);
+    const { error } = createUserSchema.validate(body);
 
     if (error) {
         const errorMessage = error.details[0].message;
