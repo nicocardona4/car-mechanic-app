@@ -1,6 +1,6 @@
 const User = require('../models/user_model');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const buildUserDTOResponse = require('../dtos/user_response_dto');
 const { StatusCodes } = require('http-status-codes');
 
