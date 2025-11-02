@@ -37,7 +37,7 @@ app.use('', serviceTypeRouter);
 (async () => {
     try {
         await connectMongoDB();
-        const port = process.env.PORT;
+        const port = process.env.PORT || 3000;
         app.listen(port, () => {
             console.log("App started and listening in port " + port);
         })
