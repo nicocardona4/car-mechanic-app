@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const express = require('express');
-const cors = require('cors');
 
 const connectMongoDB = require('./repositories/mongo_client.js');
 console.log("¿Qué importé?", connectMongoDB);
@@ -15,14 +14,6 @@ const usersRouter = require('./routes/users_router');
 const healthRouter = require('./routes/health_router');
 
 const app = express();
-app.use(cors({
-  origin: [
-    'http://localhost:5178',           // CP | Nico este es mi entorno local, estoy testeando si queres cambia al tuyo desp
-    'https://car-mechanic-ten.vercel.app'  
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true
-}));
 
 app.use(express.json());
 
@@ -37,7 +28,7 @@ app.use('', serviceTypeRouter);
 (async () => {
     try {
         await connectMongoDB();
-        const port = process.env.PORT || 3000;
+        const port = process.env.PORT;
         app.listen(port, () => {
             console.log("App started and listening in port " + port);
         })
