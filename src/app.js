@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const express = require('express');
-const cors = require('cors');
 
 
 const connectMongoDB = require('./repositories/mongo_client.js');
@@ -16,10 +15,6 @@ const usersRouter = require('./routes/users_router');
 const healthRouter = require('./routes/health_router');
 
 const app = express();
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'], // CP | Harcodeado, no se si se puede :v averiguar
-  credentials: true
-}));
 
 app.use(express.json());
 
