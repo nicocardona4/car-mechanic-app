@@ -4,28 +4,37 @@ const express = require('express');
 
 
 const connectMongoDB = require('./repositories/mongo_client.js');
+console.log("¿Qué importé?", connectMongoDB);
 
+const signupRouter = require('./routes/signup_router.js');
+const loginRouter = require('./routes/login_router.js');
+const servicesRouter = require('./routes/services_router.js');
+const serviceTypeRouter = require('./routes/serviceType_router');
+const authMiddleware = require('./middleware/auth_middleware.js');
+const usersRouter = require('./routes/users_router'); 
+const healthRouter = require('./routes/health_router');
 
-
-const signupRouter = require('./routes/signup_router');
-const loginRouter = require('./routes/login_router');
 const app = express();
 app.use(cors());
+
 app.use(express.json());
+
 app.use('', signupRouter);
 app.use('', loginRouter);
+app.use("/", healthRouter);
+app.use(authMiddleware);
 
+app.use('', usersRouter);
+app.use('', servicesRouter);
+app.use('', serviceTypeRouter);
 (async () => {
     try {
         await connectMongoDB();
-        console.log("conexión mongoDB ok")
-
         const port = process.env.PORT;
         app.listen(port, () => {
             console.log("App started and listening in port " + port);
         })
     } catch (error) {
-        console.log("Error conectando con mongoDB", error);
         process.exit(1);
     }
 })();
