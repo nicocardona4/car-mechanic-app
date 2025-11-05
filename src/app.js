@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+const cors = require('cors');
 const express = require('express');
 
 
@@ -10,6 +10,7 @@ const connectMongoDB = require('./repositories/mongo_client.js');
 const signupRouter = require('./routes/signup_router');
 const loginRouter = require('./routes/login_router');
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use('', signupRouter);
 app.use('', loginRouter);
