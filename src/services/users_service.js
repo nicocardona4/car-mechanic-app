@@ -56,7 +56,8 @@ const registerUser = async ({ username, password, email, userType }) => {
     try {
         const savedUser = await newUser.save();
         const userDTO = buildUserDTOResponse(savedUser);
-        const token = jwt.sign({ username: user.username, name: user.name, userId: user._id.toString() }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
+        const savedId = await getUserByUserName(username)._id;
+        const token = jwt.sign({ username: username, userId: savedId.toString() }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
         userDTO.token = token;
         return userDTO;
     } catch (error) {
