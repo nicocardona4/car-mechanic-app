@@ -1,5 +1,6 @@
 const buildServiceDTOResponse = service => {
     return {
+        id: service._id,
         customerName: service.customerName,
         brand: service.brand,
         model: service.model,
