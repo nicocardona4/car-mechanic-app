@@ -10,6 +10,7 @@ const buildServiceDTOResponse = service => {
         serviceType: service.serviceType,
         cost: service.cost,
         status: service.status,
+        imageUrl: service.imageUrl,
     }
 }
 
