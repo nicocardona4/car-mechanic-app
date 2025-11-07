@@ -9,7 +9,8 @@ const createServiceSchema = Joi.object({
     description: Joi.string().max(500).optional(),
     serviceType: Joi.string().valid('maintenance', 'repair', 'inspection').required(),
     cost: Joi.number().min(0).required(),
-    status: Joi.string().valid('pending', 'in-progress', 'completed').default('pending')
+    status: Joi.string().valid('pending', 'in-progress', 'completed').default('pending'),
+    imageUrl: Joi.string().optional()
 });
 
 module.exports = createServiceSchema;

@@ -3,8 +3,8 @@ const Service = require('../models/service_model');
 const buildServiceDTOResponse = require('../dtos/service_response_dto');
 
 
-const createService = async (customerName, brand, model, year, licensePlate, description, serviceType, cost, userId) => {
-    console.log("Creating service with data:", { customerName, brand, model, year, licensePlate, description, serviceType, cost, userId });
+const createService = async (customerName, brand, model, year, licensePlate, description, serviceType, cost, imageUrl, userId) => {
+    console.log("Creating service with data:", { customerName, brand, model, year, licensePlate, description, serviceType, cost, imageUrl, userId });
     const newService = new Service({
         customerName,
         brand,
@@ -14,6 +14,7 @@ const createService = async (customerName, brand, model, year, licensePlate, des
         description,
         serviceType,
         cost,
+        imageUrl,
         userId
     });
     console.log(newService);

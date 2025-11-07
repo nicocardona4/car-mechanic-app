@@ -50,6 +50,10 @@ const serviceSchema = new mongoose.Schema({
         enum: ['pending', 'in-progress', 'completed'], 
         default: 'pending' 
     },
+    imageUrl: { 
+        type: String,
+        required: false 
+    },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "Users", required: true }
 }, {
     collection: "services",

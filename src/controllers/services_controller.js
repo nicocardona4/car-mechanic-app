@@ -41,10 +41,10 @@ const createService = async (req, res) => {
         return;
     }
 
-    const { customerName, brand, model, year, licensePlate, description, serviceType, cost } = body;
+    const { customerName, brand, model, year, licensePlate, description, serviceType, cost , imageUrl} = body;
 
     try {
-        const newService = await servicesService.createService(customerName, brand, model, year, licensePlate, description, serviceType, cost, req.userId);
+        const newService = await servicesService.createService(customerName, brand, model, year, licensePlate, description, serviceType, cost, imageUrl, req.userId);
         res.status(StatusCodes.CREATED).json(newService);
     } catch (error) {
         res.status(error.code || 500).json(createError(error.status, error.message));
