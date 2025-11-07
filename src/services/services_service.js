@@ -52,7 +52,9 @@ const getServicesByUserId = async (userId, queryParams) => {
             }
 
             if (queryParams.endDate) {
-                query.createdAt.$lte = new Date(queryParams.endDate);
+                const end = new Date(queryParams.endDate);
+                end.setHours(23, 59, 59, 999);
+                query.createdAt.$lte = end;
             }
         }
 
