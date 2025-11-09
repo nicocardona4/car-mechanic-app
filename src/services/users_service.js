@@ -24,7 +24,7 @@ const doLogin = async ({ username, password }) => {
         throw error;
     }
 
-    const token = jwt.sign({ username: user.username, name: user.name, userId: user._id.toString() }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
+    const token = jwt.sign({ username: user.username, userType: user.userType, userId: user._id.toString() }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
 
     return { token: token };
 }
@@ -56,7 +56,7 @@ const registerUser = async ({ username, password, email, userType }) => {
     try {
         const savedUser = await newUser.save();
         const userDTO = buildUserDTOResponse(savedUser);
-        const token = jwt.sign({ username: username, userId: savedUser._id.toString() }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
+        const token = jwt.sign({ username: username, userType: userType, userId: savedUser._id.toString() }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
         userDTO.token = token;
         return userDTO;
     } catch (error) {
