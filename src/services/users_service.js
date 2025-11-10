@@ -91,6 +91,10 @@ const changePlanService = async (userId) => {
 
     user.userType = 'premium';
     await user.save();
+
+      const newToken = jwt.sign({username: user.username, userType: user.userType, userId: user._id.toString(),}, process.env.JWT_SECRET_KEY,{ expiresIn: "1h" });
+
+  return { token: newToken, userType: user.userType };
 };
 
 

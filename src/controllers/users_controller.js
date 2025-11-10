@@ -69,8 +69,8 @@ const changePlan = async (req, res) => {
     // CP | get del user
     const userId = req.userId;
 
-    const updatedUser = await changePlanService(userId);
-    res.status(StatusCodes.OK).json(updatedUser);
+    const updatedInfo = await changePlanService(userId);
+    res.status(StatusCodes.OK).json(updatedInfo);
 
   } catch (e) {
     console.error(e);
