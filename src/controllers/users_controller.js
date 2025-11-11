@@ -27,8 +27,8 @@ const login = async (req, res) => {
         }
 
 
-        const token = await usersService.doLogin(body);
-        res.status(StatusCodes.OK).json(token);
+        const response = await usersService.doLogin(body);
+        res.status(StatusCodes.OK).json(response);
     } catch (error) {
         console.error("Login error:", error);
         res.status(error.code || StatusCodes.INTERNAL_SERVER_ERROR)
